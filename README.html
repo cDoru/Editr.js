@@ -1,0 +1,209 @@
+<h1>Editr</h1>
+<h2>About</h2>
+<p>Editr is a HTML, CSS and JavaScript playground that you can host on your server. it is based on ACE Editor. It’s super easy to setup and supports multiple instances on one page. Configurations are available via JS object or HTML attributes.</p>
+<p>You can check demo and read more about features <a href="http://lab.idered.pl/editr">here</a>.</p>
+<h2>Files structure</h2>
+<pre><code>.
+|---. editr
+|   |--- editr.js
+|   |--- editr.css
+|   |--- items
+|   |---. items
+|       |--- index.html
+|   |---. parsers
+|       |--- less.js
+|       |--- coffeescript.js</code></pre>
+<p><strong>editr</strong>
+Folder containing Editr script, style and projects folder</p>
+<p><strong>editr.js</strong>
+Editr main script. It&#39;s quite clean and have some comments so have fun with digging it.</p>
+<p><strong>editr.css</strong>
+Editr style, it contains only some basic style so you can easily customize it.</p>
+<p><strong>items</strong>
+Folder containing all your projects(can be configured).</p>
+<p><strong>index.html</strong>
+Required file with basic html, used as default file when no files were added for html, css or js.</p>
+<p><strong>parsers</strong>
+Put here your HTML, CSS, JS preprocessors. Contains LESS and CoffeeScript by default.</p>
+<h2>Dependencies</h2>
+<ul>
+<li>jQuery <code>//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js</code></li>
+<li>ACE Editor <code>https://rawgithub.com/ajaxorg/ace-builds/master/src/ace.js</code></li>
+<li>Emmet extension for ACE <code>https://rawgithub.com/ajaxorg/ace-builds/master/src/ext-emmet.js</code></li>
+<li>Emmet core <code>https://rawgithub.com/nightwing/emmet-core/master/emmet.js</code></li>
+</ul>
+<p>You also have to add parsers if you want to support preprocessors:</p>
+<ul>
+<li>Coffescript <code>editr/parsers/coffeescript.js</code></li>
+<li>LESS <code>editr/parsers/less.js</code></li>
+</ul>
+<h2>Installation</h2>
+<p>Copy <code>editr</code> folder to root of your website.</p>
+<p>Add this in <code>&lt;head&gt;</code>:</p>
+<pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;/editr/editr.css&quot;&gt;</code></pre>
+<p>and this before <code>&lt;/body&gt;</code>:</p>
+<pre><code class="language-html">&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://rawgithub.com/ajaxorg/ace-builds/master/src/ace.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://rawgithub.com/ajaxorg/ace-builds/master/src/ext-emmet.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://rawgithub.com/nightwing/emmet-core/master/emmet.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/editr/editr.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>Additionally you can add(before Editr script) LESS and CoffeeScript compilers if you&#39;re going to use them:</p>
+<pre><code class="language-html">&lt;script src=&quot;/editr/parsers/coffeescript.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/editr/parsers/less.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>Embed single editor:</p>
+<pre><code class="language-html">&lt;div class=&quot;editr&quot; data-item=&quot;PROJECT-NAME&quot; data-files-html=&quot;index-1.html;index-2.html&quot; data-files-css=&quot;!normalize.css;style.css&quot; data-files-js=&quot;!jquery.js;script.js&quot;&gt;&lt;/div&gt;</code></pre>
+<p>Run it:</p>
+<pre><code class="language-javascript">$(&#39;.editr&#39;).each(function() {
+    new Editr({ el: this });
+});</code></pre>
+<p>This will load project named &#39;PROJECT-NAME&#39; from &#39;items/&#39; folder(Editr default value). Files passed in data-files-[html/css/js] will be loaded in a queue. Files with &#39;!&#39; before name will be hidden from Editr navigation bar.</p>
+<h2>Options</h2>
+<h3>Via HTML data- attribute</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th align="center">Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>item</td>
+<td align="center"><code>null</code></td>
+<td>Name of project folder inside projects folder(&#39;path&#39; option).</td>
+</tr>
+<tr>
+<td>view</td>
+<td align="center"><code>single</code></td>
+<td>Editr layout view. Other options: <code>horizontal</code>, <code>vertical</code>.</td>
+</tr>
+<tr>
+<td>path</td>
+<td align="center"><code>items</code></td>
+<td>Path to folder with projects.</td>
+</tr>
+<tr>
+<td>theme</td>
+<td align="center"><code>monokai</code></td>
+<td>ACE Editor theme.</td>
+</tr>
+<tr>
+<td>hide</td>
+<td align="center"><code>null</code></td>
+<td>This attribute allows you to hide elements from Editr toolbar. Values: <code>all result html css js</code>.</td>
+</tr>
+<tr>
+<td>readonly</td>
+<td align="center"><code>false</code></td>
+<td>Make Editr textarea read-only.</td>
+</tr>
+<tr>
+<td>files-html</td>
+<td align="center"><code>null</code></td>
+<td>HTML Files. Base64 supported.</td>
+</tr>
+<tr>
+<td>files-css</td>
+<td align="center"><code>null</code></td>
+<td>CSS Files. LESS is supported. Base64 supported.</td>
+</tr>
+<tr>
+<td>files-js</td>
+<td align="center"><code>null</code></td>
+<td>JavaScript Files. CoffeeScript is supported. Base64 supported.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><code>data-</code> attributes overwrites options passed via JS.</li>
+<li>Files passed in files-[html,css,js] should be separated by <code>;</code>.</li>
+<li>Add <code>!</code> before file name to load file in editor but hide it from navigation bar.</li>
+<li>If you want to add Base64 encoded preprocessor code, add preprocessor name before it: coffee:BASE64_STRING or less:BASE64_STRING.</li>
+</ul>
+<h3>Via JavaScript</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th align="center">Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>view</td>
+<td align="center"><code>single</code></td>
+<td>Editr layout view. Other options: <code>horizontal</code>, <code>vertical</code>.</td>
+</tr>
+<tr>
+<td>path</td>
+<td align="center"><code>items</code></td>
+<td>Path to folder with projects.</td>
+</tr>
+<tr>
+<td>theme</td>
+<td align="center"><code>monokai</code></td>
+<td>ACE Editor theme.</td>
+</tr>
+<tr>
+<td>readonly</td>
+<td align="center"><code>false</code></td>
+<td>Make Editr textarea read-only.</td>
+</tr>
+<tr>
+<td>callback</td>
+<td align="center"><code>function (editor) {}</code></td>
+<td>Callback triggered after all files are loaded and Editr is ready. Editr object is passed as an argument, use wisely.</td>
+</tr>
+<tr>
+<td>parsers</td>
+<td align="center">Check source</td>
+<td>You can add custom parsers for preprocessors. Check source for more info.</td>
+</tr>
+</tbody>
+</table>
+<h2>API</h2>
+<p>Please keep in mind that using API functions is most stable in callback which you can configure in JS options. Editr object is passed for it as an argument.</p>
+<p>In case, you want to use API functions outside of callback, use them on pure JS objects, not jQuery.</p>
+<p>Here&#39;s how to make jQuery object a pure js object:</p>
+<pre><code class="language-javascript">$(&#39;.editr&#39;)[0]</code></pre>
+<p>On that object you can use any of API methods:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Arguments</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>isReady</td>
+<td>None</td>
+<td>Check if Editr is fully loaded</td>
+</tr>
+<tr>
+<td>getFiles</td>
+<td><code>type</code> - html, css, js, null</td>
+<td>Return all files for given type or overall if not passed</td>
+</tr>
+<tr>
+<td>getFile</td>
+<td><code>type</code> - html, css, js, null <br> <code>id</code> - File ID</td>
+<td>Return single file for given type(extension) and id</td>
+</tr>
+<tr>
+<td>setReadOnly</td>
+<td><code>value</code> - boolean</td>
+<td>Set Editr textareas read state</td>
+</tr>
+</tbody>
+</table>
+<h2>License</h2>
+<p><strong>GPL v3 Licensing</strong></p>
+<p>Copyright (c) 2013 Kasper Mikiewicz</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
